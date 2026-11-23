@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   Home,
   Users,
@@ -29,16 +30,16 @@ import {
 
 // ─── Sidebar nav items ────────────────────────────────────────────────────────
 const navItems = [
-  { label: "Home", icon: Home, active: true },
-  { label: "Explore People", icon: Users },
-  { label: "Rankings", icon: Trophy },
-  { label: "Connections", icon: Link2 },
-  { label: "Debt Relief", icon: HeartHandshake },
-  { label: "Messages", icon: MessageSquare },
-  { label: "Notifications", icon: Bell },
-  { label: "My Profile", icon: User },
-  { label: "Transactions", icon: CreditCard },
-  { label: "Settings", icon: Settings },
+  { label: "Home", icon: Home, active: true, href: "/" },
+  { label: "Explore People", icon: Users, href: "#" },
+  { label: "Rankings", icon: Trophy, href: "/rankings" },
+  { label: "Connections", icon: Link2, href: "#" },
+  { label: "Debt Relief", icon: HeartHandshake, href: "#" },
+  { label: "Messages", icon: MessageSquare, href: "#" },
+  { label: "Notifications", icon: Bell, href: "#" },
+  { label: "My Profile", icon: User, href: "#" },
+  { label: "Transactions", icon: CreditCard, href: "#" },
+  { label: "Settings", icon: Settings, href: "#" },
 ];
 
 // ─── People you may know ──────────────────────────────────────────────────────
@@ -121,9 +122,10 @@ export default function HomePage() {
 
           {/* Nav */}
           <nav className="flex flex-col gap-0.5">
-            {navItems.map(({ label, icon: Icon, active }) => (
-              <button
+            {navItems.map(({ label, icon: Icon, active, href }) => (
+              <Link
                 key={label}
+                href={href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors w-full text-left
                   ${active
                     ? "bg-green-50 text-green-700"
@@ -137,7 +139,7 @@ export default function HomePage() {
                   strokeWidth={active ? 2.2 : 1.8}
                 />
                 {label}
-              </button>
+              </Link>
             ))}
           </nav>
         </div>
