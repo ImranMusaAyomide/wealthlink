@@ -25,7 +25,7 @@ import {
 /* ─── Sidebar nav ─────────────────────────────────────────────────────────── */
 const navItems = [
   { label: "Home", icon: Home, href: "/" },
-  { label: "Explore People", icon: Users, href: "#" },
+  { label: "Explore", icon: Users, href: "/explore" },
   { label: "Rankings", icon: Trophy, active: true, href: "/rankings" },
   { label: "Connections", icon: Link2, href: "#" },
   { label: "Debt Relief", icon: HeartHandshake, href: "#" },

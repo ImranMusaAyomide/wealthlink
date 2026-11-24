@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ExploreView } from "./explore";
 import {
   Home,
   Users,
@@ -30,16 +31,16 @@ import {
 
 // ─── Sidebar nav items ────────────────────────────────────────────────────────
 const navItems = [
-  { label: "Home", icon: Home, active: true, href: "/" },
-  { label: "Explore People", icon: Users, href: "#" },
-  { label: "Rankings", icon: Trophy, href: "/rankings" },
-  { label: "Connections", icon: Link2, href: "#" },
-  { label: "Debt Relief", icon: HeartHandshake, href: "#" },
-  { label: "Messages", icon: MessageSquare, href: "#" },
-  { label: "Notifications", icon: Bell, href: "#" },
-  { label: "My Profile", icon: User, href: "#" },
-  { label: "Transactions", icon: CreditCard, href: "#" },
-  { label: "Settings", icon: Settings, href: "#" },
+  { id: "home", label: "Home", icon: Home, href: "/" },
+  { id: "explore", label: "Explore", icon: Users, href: "/explore" },
+  { id: "rankings", label: "Rankings", icon: Trophy, href: "/rankings" },
+  { id: "connections", label: "Connections", icon: Link2, href: "#" },
+  { id: "debt-relief", label: "Debt Relief", icon: HeartHandshake, href: "#" },
+  { id: "messages", label: "Messages", icon: MessageSquare, href: "#" },
+  { id: "notifications", label: "Notifications", icon: Bell, href: "#" },
+  { id: "profile", label: "My Profile", icon: User, href: "#" },
+  { id: "transactions", label: "Transactions", icon: CreditCard, href: "#" },
+  { id: "settings", label: "Settings", icon: Settings, href: "#" },
 ];
 
 // ─── People you may know ──────────────────────────────────────────────────────
@@ -73,7 +74,8 @@ const audienceOptions = [
 // ─── Attachment colours ───────────────────────────────────────────────────────
 const attachmentColors = ["bg-blue-100", "bg-slate-200", "bg-amber-200"];
 
-export default function HomePage() {
+export default function HomePage({ initialTab = "home" }: { initialTab?: "home" | "explore" | "rankings" } = {}) {
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [postText, setPostText] = useState(
     "Starting an apprenticeship programme in our neighbourhood has taught me that opportunity travels through people. If you run a small business, consider opening one seat for someone learning."
   );
@@ -122,25 +124,34 @@ export default function HomePage() {
 
           {/* Nav */}
           <nav className="flex flex-col gap-0.5">
-            {navItems.map(({ label, icon: Icon, active, href }) => (
-              <Link
-                key={label}
-                href={href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors w-full text-left
-                  ${active
-                    ? "bg-green-50 text-green-700"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                  }`}
-                onClick={() => setSidebarOpen(false)}
-              >
-                <Icon
-                  size={17}
-                  className={active ? "text-green-600" : "text-gray-400"}
-                  strokeWidth={active ? 2.2 : 1.8}
-                />
-                {label}
-              </Link>
-            ))}
+            {navItems.map(({ id, label, icon: Icon, href }) => {
+              const active = activeTab === id;
+              return (
+                <Link
+                  key={label}
+                  href={href}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors w-full text-left
+                    ${active
+                      ? "bg-green-50 text-green-700 font-semibold"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    }`}
+                  onClick={(e) => {
+                    setSidebarOpen(false);
+                    if (id === "home" || id === "explore") {
+                      e.preventDefault();
+                      setActiveTab(id as "home" | "explore");
+                    }
+                  }}
+                >
+                  <Icon
+                    size={17}
+                    className={active ? "text-green-600" : "text-gray-400"}
+                    strokeWidth={active ? 2.2 : 1.8}
+                  />
+                  {label}
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
@@ -205,8 +216,14 @@ export default function HomePage() {
           </div>
         </header>
 
-        {/* Content row */}
-        <div className="flex flex-1 overflow-y-auto gap-5 p-3 sm:p-5">
+        {/* Body content based on activeTab */}
+        {activeTab === "explore" ? (
+          <div className="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8">
+            <ExploreView />
+          </div>
+        ) : (
+          /* Content row */
+          <div className="flex flex-1 overflow-y-auto gap-5 p-3 sm:p-5">
           {/* ───────── MAIN CONTENT ───────── */}
           <main className="flex-1 min-w-0">
             {/* Header */}
@@ -509,6 +526,7 @@ export default function HomePage() {
             </div>
           </aside>
         </div>
+        )}
       </div>
     </div>
   );
