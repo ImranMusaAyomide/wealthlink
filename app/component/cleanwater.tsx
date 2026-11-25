@@ -37,7 +37,7 @@ const navItems = [
   { label: "Messages", icon: MessageSquare, href: "#" },
   { label: "Notifications", icon: Bell, href: "#" },
   { label: "My Profile", icon: User, href: "#" },
-  { label: "Transactions", icon: CreditCard, href: "#" },
+  { label: "Donation History", icon: CreditCard, href: "/donationhistory" },
   { label: "Settings", icon: Settings, href: "#" },
 ];
 

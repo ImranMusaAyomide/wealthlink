@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { CleanWaterView } from "./cleanwater";
+import { DonationHistoryView } from "./donationhistory";
 import {
   Home,
   Users,
@@ -34,7 +35,7 @@ const navItems = [
   { label: "Messages", icon: MessageSquare, href: "#" },
   { label: "Notifications", icon: Bell, href: "#" },
   { label: "My Profile", icon: User, href: "#" },
-  { label: "Transactions", icon: CreditCard, href: "#" },
+  { label: "Donation History", icon: CreditCard, href: "/donationhistory" },
   { label: "Settings", icon: Settings, href: "#" },
 ];
 
@@ -108,6 +109,10 @@ export function ExploreView({ onSelectProject }: { onSelectProject?: (id: number
 
   if (selectedProject === 1) {
     return <CleanWaterView onBack={() => setSelectedProject(null)} />;
+  }
+
+  if (activeWorkspaceTab === "Donation history") {
+    return <DonationHistoryView onExploreProjects={() => setActiveWorkspaceTab("Explore projects")} />;
   }
 
   return (
