@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { CheckoutView } from "./checkout";
 import {
   Home,
   Users,
@@ -46,7 +47,12 @@ interface CleanWaterViewProps {
 
 // ─── Exportable CleanWater Detail View ──────────────────────────────────────
 export function CleanWaterView({ onBack }: CleanWaterViewProps) {
+  const [showCheckout, setShowCheckout] = useState(false);
   const [activeTab, setActiveTab] = useState<"overview" | "financial" | "updates">("overview");
+
+  if (showCheckout) {
+    return <CheckoutView onBack={() => setShowCheckout(false)} />;
+  }
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto pb-12 font-[family-name:var(--font-montserrat)] text-gray-900">
@@ -159,7 +165,10 @@ export function CleanWaterView({ onBack }: CleanWaterViewProps) {
 
           {/* Action CTAs */}
           <div className="space-y-2 pt-2">
-            <button className="w-full bg-[#133d2e] hover:bg-[#0e2c21] text-white text-sm font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-1.5">
+            <button
+              onClick={() => setShowCheckout(true)}
+              className="w-full bg-[#133d2e] hover:bg-[#0e2c21] text-white text-sm font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-1.5"
+            >
               <span>Donate to this project</span>
               <ArrowRight size={15} />
             </button>
